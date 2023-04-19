@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.librarymanagementsystem.ui.add_books.AddBooksFragment;
+
 public class BooksDB extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "LMS.db";

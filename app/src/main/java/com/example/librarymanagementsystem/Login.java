@@ -63,6 +63,7 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, "Successfully Login!", Toast.LENGTH_SHORT).show();
                                 // Go to student dashboard
                             Intent i = new Intent(getApplicationContext(), Student_Dashboard.class);
+                            i.putExtra("rollNo", rollNo_txt);
                             startActivity(i);
                             }
                             else
