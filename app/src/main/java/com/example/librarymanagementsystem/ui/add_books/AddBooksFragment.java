@@ -1,7 +1,9 @@
 package com.example.librarymanagementsystem.ui.add_books;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,52 +25,43 @@ public class AddBooksFragment extends Fragment {
 
     public FragmentAddBooksBinding binding;
 
+    EditText bookID, title, author, genre, quantity;
     BooksDB DB;
-
+    @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AddBooksViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(AddBooksViewModel.class);
 
         binding = FragmentAddBooksBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        View view = inflater.inflate(R.layout.fragment_add_books, container, false);
-
         DB = new BooksDB(getContext());
-        EditText bookID = view.findViewById(R.id.bookId);
-        EditText title = view.findViewById(R.id.title);
-        EditText author = view.findViewById(R.id.author);
-        EditText genre = view.findViewById(R.id.genre);
-        EditText quantity = view.findViewById(R.id.quantity);
 
+        bookID = root.findViewById(R.id.bookId);
+        title = root.findViewById(R.id.title);
+        author = root.findViewById(R.id.author);
+        genre = root.findViewById(R.id.genre);
+        quantity = root.findViewById(R.id.quantity);
 
-        Button addBtn = view.findViewById(R.id.addBook);
+        Button addBtn = root.findViewById(R.id.addBookBtn);
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String bookID_txt = bookID.getText().toString();
-                String title_txt = title.getText().toString();
-                String author_txt = author.getText().toString();
-                String genre_txt = genre.getText().toString();
-                int quantity_int  = Integer.parseInt(quantity.getText().toString());
+        addBtn.setOnClickListener(view1 -> {
 
-                boolean checkBookInsert = DB.insertBook(bookID_txt, title_txt, author_txt, genre_txt, quantity_int, false);
-                if(checkBookInsert==true)
-                {
-                    Toast.makeText(getContext(), "New Entry Inserted", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(getContext(), Login.class);
-                    startActivity(i);
-                }
-                else
-                    Toast.makeText(getContext(), "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+            String bookID_txt = bookID.getText().toString();
+            String title_txt = title.getText().toString();
+            String author_txt = author.getText().toString();
+            String genre_txt = genre.getText().toString();
+            int quantity_int = Integer.parseInt(quantity.getText().toString());
+
+            boolean checkBookInsert = DB.insertBook(bookID_txt, title_txt, author_txt, genre_txt, quantity_int, false);
+            if(checkBookInsert==true)
+            {
+                Toast.makeText(getContext(), "New Entry Inserted", Toast.LENGTH_SHORT).show();
             }
+            else
+                Toast.makeText(getContext(), "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+
         });
-
         return root;
-
-
     }
 
     @Override

@@ -31,6 +31,8 @@ public class ViewStudentsFragment extends Fragment {
     ArrayList<String> Names;
     ArrayList<String> RollNo;
 
+    ArrayList<String> Dept;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,18 +47,24 @@ public class ViewStudentsFragment extends Fragment {
 
         Names = new ArrayList<String>();
         RollNo = new ArrayList<String>();
+        Dept = new ArrayList<String>();
 
         while (cursor.moveToNext()) {
             RollNo.add(cursor.getString(0));
             Names.add(cursor.getString(1));
+            Dept.add(cursor.getString(3));
         }
 
-        Log.d("RollNO LIST", RollNo.toString());
-        Log.d("Names LIST", Names.toString());
 
         CustomBaseAdapter ca = new CustomBaseAdapter();
         listView.setAdapter(ca);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), RollNo.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
         return root;
     }
 
@@ -85,8 +93,12 @@ public class ViewStudentsFragment extends Fragment {
             }
             TextView NameView = convertView.findViewById(R.id.Name_ListView);
             TextView RollNoView = convertView.findViewById(R.id.RollNo_ListView);
+            TextView DeptView = convertView.findViewById(R.id.Dept_ListView);
+
             NameView.setText(Names.get(position));
             RollNoView.setText(RollNo.get(position));
+            DeptView.setText(Dept.get(position));
+
             return convertView;
         }
     }

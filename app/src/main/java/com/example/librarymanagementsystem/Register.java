@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
 
-
     EditText name, dept, contactNo, rollNo, password;
     Button registerbtn, goBackbtn;
     StudentDB DB;

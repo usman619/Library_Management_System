@@ -3,10 +3,10 @@ package com.example.librarymanagementsystem;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.librarymanagementsystem.ui.add_books.AddBooksFragment;
+import android.util.Log;
 
 public class BooksDB extends SQLiteOpenHelper {
 
@@ -22,7 +22,13 @@ public class BooksDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
-        DB.execSQL("CREATE TABLE " + TABLE_NAME + " (bookId TEXT PRIMARY KEY, title TEXT, author TEXT, genre TEXT, quantity INTEGER, soldout BOOLEAN)");
+        Log.d("BooksDB", "Creating database...");
+        try {
+            DB.execSQL("CREATE table " + TABLE_NAME + " (bookID TEXT PRIMARY KEY, title TEXT, author TEXT, genre TEXT, quantity INTEGER, soldout boolean)");
+            Log.d("BooksDB", "Database created successfully.");
+        } catch (SQLException e) {
+            Log.e("BooksDB", "Error creating database", e);
+        }
     }
 
     @Override
@@ -31,16 +37,34 @@ public class BooksDB extends SQLiteOpenHelper {
         onCreate(DB);
     }
 
-    public boolean insertBook(String bookId, String title, String author, String genre, int quantity, boolean soldout){
+    public boolean tableExists(String tableName) {
+        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '"+tableName+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
+
+    public boolean insertBook(String bookID, String title, String author, String genre, int quantity, boolean soldout){
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
+        }
         ContentValues contentValues = new ContentValues();
-        contentValues.put("bookId", bookId);
+        contentValues.put("bookID", bookID);
         contentValues.put("title", title);
         contentValues.put("author", author);
         contentValues.put("genre", genre);
         contentValues.put("quantity", quantity);
         contentValues.put("soldout", soldout);
         long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+        if(result==-1)
+            return false;
+        else
+            return true;
     }
 
     public boolean updateBook(String bookId, String title, String author, String genre, int quantity, boolean soldout){
@@ -71,14 +95,15 @@ public class BooksDB extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAllBooks(){
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
-        return cursor;
-    }
 
     public Cursor getBook(String bookId){
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where bookID = ?", new String[]{bookId});
         return cursor;
     }
 
+
+    public Cursor getAllBooks(){
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        return cursor;
+    }
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view_book_list_view">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        tools:context=".ViewBookListView"
+        tools:ignore="MissingConstraints">
+
+
+        <ImageView
+            android:id="@+id/book_image"
+            android:layout_width="88dp"
+            android:layout_height="104dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/baseline_book_24" />
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/book_image"
+            android:text="Book Title"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/book_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_title"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/book_image"
+            android:text="Book Author"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/bookmark_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="19dp"
+            android:src="@drawable/baseline_bookmarks_24" />
+
+        <Button
+            android:id="@+id/buy_now_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_author"
+            android:layout_marginLeft="210dp"
+            android:layout_marginTop="-11dp"
+            android:layout_toRightOf="@id/book_image"
+            android:background="#000000"
+            android:padding="10dp"
+            android:text="Buy Now"
+            android:textColor="#FFFFFF" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
