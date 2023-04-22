@@ -27,11 +27,11 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    BooksDB DB;
-
-    ArrayList<String> title;
-
-    ArrayList<String> author;
+//    BooksDB DB;
+//
+//    ArrayList<String> title;
+//
+//    ArrayList<String> author;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,66 +41,66 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         final ListView listView = binding.ViewHomeListView;
-        DB = new BooksDB(getContext());
-        Cursor cursor = DB.getAllBooks();
-
-        title = new ArrayList<String>();
-        author = new ArrayList<String>();
-
-        while (cursor.moveToNext()){
-            title.add(cursor.getString(1));
-            author.add(cursor.getString(2));
-        }
-
-        Log.d("title", title.toString());
-        Log.d("author", author.toString());
-
-        CustomBaseAdapter ca = new CustomBaseAdapter();
-        listView.setAdapter(ca);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), title.get(position), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        DB = new BooksDB(getContext());
+//        Cursor cursor = DB.getAllBooks();
+//
+//        title = new ArrayList<String>();
+//        author = new ArrayList<String>();
+//
+//        while (cursor.moveToNext()){
+//            title.add(cursor.getString(1));
+//            author.add(cursor.getString(2));
+//        }
+//
+//        Log.d("title", title.toString());
+//        Log.d("author", author.toString());
+//
+//        CustomBaseAdapter ca = new CustomBaseAdapter();
+//        listView.setAdapter(ca);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), title.get(position), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return root;
     }
-
-    class CustomBaseAdapter extends BaseAdapter{
-
-        @Override
-        public int getCount() {
-            return title.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.activity_view_book_list_view, parent, false);
-            }
-            TextView TitleView = convertView.findViewById(R.id.book_title);
-            TextView AuthorView = convertView.findViewById(R.id.book_author);
-
-
-            TitleView.setText(title.get(position));
-            AuthorView.setText(author.get(position));
-
-            return convertView;
-        }
-    }
+//
+//    class CustomBaseAdapter extends BaseAdapter{
+//
+//        @Override
+//        public int getCount() {
+//            return title.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int i) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int i) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(parent.getContext())
+//                        .inflate(R.layout.activity_view_book_list_view, parent, false);
+//            }
+//            TextView TitleView = convertView.findViewById(R.id.book_title);
+//            TextView AuthorView = convertView.findViewById(R.id.book_author);
+//
+//
+//            TitleView.setText(title.get(position));
+//            AuthorView.setText(author.get(position));
+//
+//            return convertView;
+//        }
+//    }
 
     @Override
     public void onDestroyView() {

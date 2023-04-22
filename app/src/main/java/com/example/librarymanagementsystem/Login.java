@@ -2,7 +2,9 @@ package com.example.librarymanagementsystem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,9 +64,13 @@ public class Login extends AppCompatActivity {
                             {
                                 Toast.makeText(Login.this, "Successfully Login!", Toast.LENGTH_SHORT).show();
                                 // Go to student dashboard
-                            Intent i = new Intent(getApplicationContext(), Student_Dashboard.class);
-                            i.putExtra("rollNo", rollNo_txt);
-                            startActivity(i);
+                                Intent i = new Intent(getApplicationContext(), Student_Dashboard.class);
+                                SharedPreferences sp = getSharedPreferences("user_info", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("RollNO", rollNo_txt);
+                                editor.putString("Password", password_txt);
+                                editor.commit();
+                                startActivity(i);
                             }
                             else
                             {

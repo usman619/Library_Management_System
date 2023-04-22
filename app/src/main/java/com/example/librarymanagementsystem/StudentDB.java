@@ -85,7 +85,8 @@ public class StudentDB extends SQLiteOpenHelper {
     }
 
     public Cursor getstudent(String rollNo){
-        Cursor cursor = db.rawQuery("Select * from " +TABLE_NAME+ " where rollNo = ?", new String[]{rollNo});
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select name,contactNo,dept from " +TABLE_NAME+ " where rollNo = ?", new String[]{String.valueOf(rollNo)});
         return cursor;
     }
 
@@ -93,4 +94,5 @@ public class StudentDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select password from "+TABLE_NAME+" where rollNo = ?", new String[]{rollNo});
         return cursor;
     }
+
 }
