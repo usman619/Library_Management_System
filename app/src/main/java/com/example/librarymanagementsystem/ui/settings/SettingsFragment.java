@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.ui.settings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,6 +36,12 @@ public class SettingsFragment extends Fragment {
         signout = (Button)binding.adminSignout;
         binding.adminSignout.setOnClickListener(view -> {
 
+            //SESSION LOGIC
+//            SharedPreferences sp = getActivity().getSharedPreferences("user_info", Activity.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sp.edit();
+//            editor.remove("User");
+//            editor.remove("Password");
+//            editor.apply();
 
             Intent i = new Intent(getActivity(), Login.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

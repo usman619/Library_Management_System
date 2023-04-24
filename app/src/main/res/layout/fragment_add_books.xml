@@ -13,62 +13,94 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:text="Add Book"
+        android:fontFamily="@font/indigo_daisy"
         android:textAlignment="center"
-        android:textSize="25dp" />
+        android:textSize="50dp" />
 
         <EditText
             android:id="@+id/bookId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
+            android:layout_height="50dp"
+            android:hint="Book ID"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
             android:inputType="text"
-            android:hint="Book ID"/>
+            android:background="@drawable/et_custom"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
+            android:layout_height="50dp"
+            android:hint="Book Title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
             android:inputType="text"
-            android:hint="Book Title"/>
+            android:background="@drawable/et_custom"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/author"
             android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Book Author"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
             android:inputType="text"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
-            android:layout_height="wrap_content"
-            android:hint="Book Author"/>
+            android:background="@drawable/et_custom"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/genre"
             android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Book Genre"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
             android:inputType="text"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
-            android:layout_height="wrap_content"
-            android:hint="Book Genre"/>
-
-        <EditText
-            android:id="@+id/quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp"
-            android:hint="Book Quantity"/>
+            android:background="@drawable/et_custom"
+            android:textSize="15sp" />
 
 
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/et_custom"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Book Quantity"
+        android:inputType="number"
+        android:padding="15dp"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/addBookBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Book"
-            android:layout_margin="20dp"
-            />
+    <Button
+        android:id="@+id/addBookBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_custom"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Register"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

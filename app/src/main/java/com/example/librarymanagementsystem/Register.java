@@ -1,9 +1,11 @@
 package com.example.librarymanagementsystem;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +21,13 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_register);
-        setTitle("Register Account");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         name = findViewById(R.id.Name);
         dept = findViewById(R.id.Dept);
@@ -43,11 +50,16 @@ public class Register extends AppCompatActivity {
                 String rollNo_txt = rollNo.getText().toString();
                 String password_txt = password.getText().toString();
 
-                Boolean checkInsertData = DB.insertstudent(rollNo_txt, name_txt, contactNo_txt, dept_txt, password_txt, 0);
+                String password_hash = PasswordHasher.sha256String(password_txt);
+
+                Log.d("HASH REGISTER:",password_hash);
+
+                Boolean checkInsertData = DB.insertstudent(rollNo_txt, name_txt, contactNo_txt, dept_txt, password_hash, 0);
                 if(checkInsertData==true)
                 {
                     Toast.makeText(getApplicationContext(), "New Entry Inserted", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getApplicationContext(), Login.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }
                 else
@@ -58,7 +70,8 @@ public class Register extends AppCompatActivity {
         goBackbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), Login.class);
+                Intent i = new Intent(Register.this, Login.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
         });

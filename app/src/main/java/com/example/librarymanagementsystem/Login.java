@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -22,8 +23,13 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
-        setTitle("Library Management System");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         rollNo = findViewById(R.id.RollNo);
         password = findViewById(R.id.password);
@@ -40,12 +46,25 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String rollNo_txt = rollNo.getText().toString();
                 String password_txt = password.getText().toString();
+                String password_hash = PasswordHasher.sha256String(password_txt);
+
+                Log.d("HASH LOGIN: ", password_hash);
 
 
-                if(rollNo_txt.equals("admin") && password_txt.equals("admin")){
+                if(rollNo_txt.equals("admin") && password_hash.equals(PasswordHasher.sha256String("admin"))){
+
                     Intent  i = new Intent(getApplicationContext(), Admin_Dashboard.class);
                     Toast.makeText(Login.this, "Successfully Logged In!", Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences sp = getSharedPreferences("user_info", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("User", rollNo_txt);
+                    editor.putString("Password", password_hash);
+                    editor.commit();
+
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
+
                 }
                 else
                 {
@@ -60,16 +79,17 @@ public class Login extends AppCompatActivity {
                             int index;
                             index = res.getColumnIndexOrThrow("password");
                             String DB_password = res.getString(index);
-                            if(password_txt.equals(DB_password))
+                            if(password_hash.equals(DB_password))
                             {
                                 Toast.makeText(Login.this, "Successfully Login!", Toast.LENGTH_SHORT).show();
                                 // Go to student dashboard
                                 Intent i = new Intent(getApplicationContext(), Student_Dashboard.class);
                                 SharedPreferences sp = getSharedPreferences("user_info", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("RollNO", rollNo_txt);
-                                editor.putString("Password", password_txt);
+                                editor.putString("User", rollNo_txt);
+                                editor.putString("Password", password_hash);
                                 editor.commit();
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
                             }
                             else

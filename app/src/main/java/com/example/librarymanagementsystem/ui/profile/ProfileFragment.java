@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
 
         // Get the rollNO from the shared Preference file
         sp = getActivity().getSharedPreferences("user_info", Activity.MODE_PRIVATE);
-        String rollNO = sp.getString("RollNO","******");
+        String rollNO = sp.getString("User","******");
 
         DB = new StudentDB(getContext());
         Cursor cursor = DB.getstudent(rollNO);
@@ -86,7 +86,7 @@ public class ProfileFragment extends Fragment {
 
             // Removing data from shared preference
             SharedPreferences.Editor editor = sp.edit();
-            editor.remove("RollNO");
+            editor.remove("User");
             editor.remove("Password");
             editor.apply();
 
