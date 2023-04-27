@@ -32,12 +32,20 @@ public class IssueBookDB extends SQLiteOpenHelper {
     }
 
     public boolean insertIssueBook(String bookId, String rollNo, Date dueDate){
+        SQLiteDatabase db = this.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("bookId", bookId);
         contentValues.put("rollNo", rollNo);
         contentValues.put("dueDate", String.valueOf(dueDate));
         long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+        if (result != -1){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
     public boolean deleteIssueBook(String ID){

@@ -172,7 +172,6 @@ public class HomeFragment extends Fragment {
                             Intent intent = new Intent(getContext(), IssueBookAdmin.class);
                             intent.putExtra("BookID", ID);
                             startActivity(intent);
-
                         }
                         //Checking the quantity if equals to zero return a toast
                         else{

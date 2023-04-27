@@ -127,12 +127,24 @@ public class BooksDB extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void decremetBookQuantity(String bookId){
-        if(!tableExists(TABLE_NAME)){
+    public void decrementBookQuantity(String bookId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (!tableExists(TABLE_NAME)) {
             onCreate(db);
             return;
         }
-        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " quantity"+ "="+" quantity" + " -1"+" WHERE bookID = ?", new String[]{bookId});
+        ContentValues values = new ContentValues();
+        values.put("quantity", "quantity - 1");
+        db.update(TABLE_NAME, values, "bookID = ?", new String[]{bookId});
     }
+
+
+//    public void decremetBookQuantity(String bookId){
+//        if(!tableExists(TABLE_NAME)){
+//            onCreate(db);
+//            return;
+//        }
+//        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " quantity"+ "="+" quantity" + " -1"+" WHERE bookID = ?", new String[]{bookId});
+//    }
 
 }

@@ -52,6 +52,7 @@ public class StudentDB extends SQLiteOpenHelper {
         contentValues.put("password", password);
         contentValues.put("bookIssued", bookIssued);
         Cursor cursor = db.rawQuery("Select * from "+TABLE_NAME+" where rollNo = ?", new String[]{rollNo});
+
         if(cursor.getCount() > 0){
             long result = db.update(TABLE_NAME, contentValues, "rollNo=?", new String[]{rollNo});
             if (result == -1) {
@@ -90,7 +91,7 @@ public class StudentDB extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public Cursor getstudentIssueBook(String rollNo){
+    public Cursor getStudentIssueBook(String rollNo){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select bookIssued from " +TABLE_NAME+ " where rollNo = ?", new String[]{String.valueOf(rollNo)});
         return cursor;
@@ -101,10 +102,17 @@ public class StudentDB extends SQLiteOpenHelper {
         return cursor;
     }
 
-
-    public void incremetBookQuantity(String rollnum){
-        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " bookIssued"+ "="+" bookIssued" + " +1"+" WHERE rollNo = ?", new String[]{rollnum});
+    public void incrementIssuedBooks(String rollNo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("bookIssued", "bookIssued + 1");
+        db.update(TABLE_NAME, values, "rollNo = ?", new String[]{rollNo});
     }
+
+//    public void incrementBookQuantity(String rollnum){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " bookIssued"+ "="+" bookIssued" + " +1"+" WHERE rollNo = ?", new String[]{rollnum});
+//    }
 
 
 }
