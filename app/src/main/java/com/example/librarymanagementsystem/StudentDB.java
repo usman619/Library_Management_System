@@ -90,9 +90,21 @@ public class StudentDB extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getstudentIssueBook(String rollNo){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("Select bookIssued from " +TABLE_NAME+ " where rollNo = ?", new String[]{String.valueOf(rollNo)});
+        return cursor;
+    }
+
     public Cursor getpassword(String rollNo){
         Cursor cursor = db.rawQuery("Select password from "+TABLE_NAME+" where rollNo = ?", new String[]{rollNo});
         return cursor;
     }
+
+
+    public void incremetBookQuantity(String rollnum){
+        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " bookIssued"+ "="+" bookIssued" + " +1"+" WHERE rollNo = ?", new String[]{rollnum});
+    }
+
 
 }

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
+
 public class BooksDB extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "LMS.db";
@@ -24,7 +26,7 @@ public class BooksDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase DB) {
         Log.d("BooksDB", "Creating database...");
         try {
-            DB.execSQL("CREATE table " + TABLE_NAME + " (bookID TEXT PRIMARY KEY, title TEXT, author TEXT, genre TEXT, quantity INTEGER, soldout boolean)");
+            DB.execSQL("CREATE table " + TABLE_NAME + " (bookID TEXT PRIMARY KEY, title TEXT, author TEXT, genre TEXT, quantity INTEGER, soldout String)");
             Log.d("BooksDB", "Database created successfully.");
         } catch (SQLException e) {
             Log.e("BooksDB", "Error creating database", e);
@@ -49,9 +51,11 @@ public class BooksDB extends SQLiteOpenHelper {
         return false;
     }
 
-    public boolean insertBook(String bookID, String title, String author, String genre, int quantity, boolean soldout){
+
+    public boolean insertBook(String bookID, String title, String author, String genre, int quantity, String soldout){
         if(!tableExists(TABLE_NAME)) {
             onCreate(db);
+            return false;
         }
         ContentValues contentValues = new ContentValues();
         contentValues.put("bookID", bookID);
@@ -67,7 +71,11 @@ public class BooksDB extends SQLiteOpenHelper {
             return true;
     }
 
-    public boolean updateBook(String bookId, String title, String author, String genre, int quantity, boolean soldout){
+    public boolean updateBook(String bookId, String title, String author, String genre, int quantity, String soldout){
+        if(!tableExists(TABLE_NAME)){
+            onCreate(db);
+            return false;
+        }
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("title", title);
@@ -86,6 +94,10 @@ public class BooksDB extends SQLiteOpenHelper {
     }
 
     public boolean deleteBook(String bookId){
+        if(!tableExists(TABLE_NAME)){
+            onCreate(db);
+            return false;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE bookId = ?", new String[]{bookId});
         if(cursor.getCount() > 0){
             long result = db.delete(TABLE_NAME, "bookId=?", new String[]{bookId});
@@ -97,13 +109,30 @@ public class BooksDB extends SQLiteOpenHelper {
 
 
     public Cursor getBook(String bookId){
+        if(!tableExists(TABLE_NAME)){
+            onCreate(db);
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where bookID = ?", new String[]{bookId});
         return cursor;
     }
 
 
     public Cursor getAllBooks(){
+        if(!tableExists(TABLE_NAME)){
+            onCreate(db);
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return cursor;
     }
+
+    public void decremetBookQuantity(String bookId){
+        if(!tableExists(TABLE_NAME)){
+            onCreate(db);
+            return;
+        }
+        Cursor cursor = db.rawQuery("UPDATE "+ TABLE_NAME + " SET"+ " quantity"+ "="+" quantity" + " -1"+" WHERE bookID = ?", new String[]{bookId});
+    }
+
 }

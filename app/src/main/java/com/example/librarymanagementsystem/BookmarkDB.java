@@ -21,7 +21,7 @@ public class BookmarkDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
-        DB.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, bookID TEXT, rollNo TEXT, soldout BOOLEAN)");
+        DB.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, bookID TEXT, title TEXT, author TEXT, genre TEXT, quantity INTEGER, soldout TEXT, rollNo TEXT)");
     }
 
     @Override
@@ -30,19 +30,53 @@ public class BookmarkDB extends SQLiteOpenHelper {
         onCreate(DB);
     }
 
-    public boolean insertBookmark(String bookId, String rollNo, boolean soldout){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("bookId", bookId);
-        contentValues.put("rollNo", rollNo);
-        contentValues.put("soldout", soldout);
-        long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+    public boolean tableExists(String tableName) {
+        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '"+tableName+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
     }
 
-    public boolean deleteBookmark(String ID){
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE ID = ?", new String[]{ID});
+    public boolean insertBookmark(String bookID, String title, String author, String genre, int quantity, String soldout, String rollNo){
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
+            return false;
+        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE bookID = ? AND rollNo = ?", new String[]{bookID, rollNo});
+        if(cursor.getCount() == 0){
+            //record doesnt exist
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("bookID", bookID);
+            contentValues.put("title", title);
+            contentValues.put("author", author);
+            contentValues.put("genre", genre);
+            contentValues.put("quantity", quantity);
+            contentValues.put("soldout", soldout);
+            contentValues.put("rollNo", rollNo);
+            long result = db.insert(TABLE_NAME, null, contentValues);
+            if(result==-1)
+                return false;
+            else
+                return true;
+        }
+        else
+            return false;
+
+    }
+
+    public boolean deleteBookmark(String bookID, String rollNo){
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
+            return false;
+        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE bookID = ? AND rollNo = ?", new String[]{bookID, rollNo});
         if(cursor.getCount() > 0){
-            long result = db.delete(TABLE_NAME, "bookId=?", new String[]{ID});
+            long result = db.delete(TABLE_NAME, "bookID = ? AND rollNo = ?", new String[]{bookID, rollNo});
             return result != -1;
         } else {
             return false;
@@ -50,6 +84,10 @@ public class BookmarkDB extends SQLiteOpenHelper {
     }
 
     public Cursor getAllBookmarks(String rollNo){
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
+            return null;
+        }
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " where rollNo = ?", new String[]{rollNo});
         return cursor;
     }

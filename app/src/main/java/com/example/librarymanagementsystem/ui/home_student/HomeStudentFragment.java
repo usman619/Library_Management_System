@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.ui.bookmark;
+package com.example.librarymanagementsystem.ui.home_student;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,21 +19,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.librarymanagementsystem.BookmarkDB;
+import com.example.librarymanagementsystem.BooksDB;
 import com.example.librarymanagementsystem.R;
-import com.example.librarymanagementsystem.Student_Dashboard;
-import com.example.librarymanagementsystem.databinding.FragmentBookmarkBinding;
-import com.example.librarymanagementsystem.ui.home_student.HomeStudentFragment;
+import com.example.librarymanagementsystem.databinding.FragmentHomeStudentsBinding;
 
 import java.util.ArrayList;
 
-public class BookmarkFragment extends Fragment {
+public class HomeStudentFragment extends Fragment {
 
-    private FragmentBookmarkBinding binding;
+    private FragmentHomeStudentsBinding binding;
 
     BookmarkDB bookmarkDB;
+
     private String rollNo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,11 @@ public class BookmarkFragment extends Fragment {
         }
     }
 
+    BooksDB DB;
+
     ImageButton bookmark;
-
     ArrayList<String> bookID;
-
     ArrayList<String> title;
-
     ArrayList<String> author;
 
     ArrayList<String> genre;
@@ -61,17 +60,17 @@ public class BookmarkFragment extends Fragment {
     ArrayList<String> soldout;
 
 
-    private CustomBaseAdapter mAdapter;
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-        binding = FragmentBookmarkBinding.inflate(inflater, container, false);
+        binding = FragmentHomeStudentsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final ListView listView = binding.ViewBookmarkListView;
+
+        final ListView listView = binding.ViewHomeStudentsListView;
+
+        DB = new BooksDB(getContext());
         bookmarkDB = new BookmarkDB(getContext());
 
-        Cursor cursor = bookmarkDB.getAllBookmarks(rollNo);
+
         title = new ArrayList<String>();
         author = new ArrayList<String>();
         bookID = new ArrayList<String>();
@@ -79,31 +78,32 @@ public class BookmarkFragment extends Fragment {
         quantity = new ArrayList<Integer>();
         soldout = new ArrayList<String>();
 
+        Cursor cursor = DB.getAllBooks();
+
         if(cursor.getCount() == 0){
             title.add("Empty BookShelf");
             author.add(" ");
+            genre.add(" ");
         }
         else{
-
-
             while (cursor.moveToNext()){
-                bookID.add(cursor.getString(1));
-                title.add(cursor.getString(2));
-                author.add(cursor.getString(3));
-                genre.add(cursor.getString(4));
-                quantity.add(cursor.getInt(5));
-                soldout.add(cursor.getString(6));
+                bookID.add(cursor.getString(0));
+                title.add(cursor.getString(1));
+                author.add(cursor.getString(2));
+                genre.add(cursor.getString(3));
+                quantity.add(cursor.getInt(4));
+                soldout.add(cursor.getString(5));
             }
 
-            mAdapter = new CustomBaseAdapter();
-            listView.setAdapter(mAdapter);
-
+            CustomBaseAdapter ca = new CustomBaseAdapter();
+            listView.setAdapter(ca);
         }
+
+
         return root;
     }
 
-
-    class CustomBaseAdapter extends BaseAdapter{
+    class CustomBaseAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -122,17 +122,15 @@ public class BookmarkFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             if (convertView == null) {
                 convertView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.activity_book_bookmark_list_view, parent, false);
+                        .inflate(R.layout.activity_book_student_list_view, parent, false);
             }
             TextView TitleView = convertView.findViewById(R.id.Book_Title_List_View);
             TextView AuthorView = convertView.findViewById(R.id.Book_Author_List_View);
             Button IssueBtn = convertView.findViewById(R.id.issueBtn);
             Button ViewBtn = convertView.findViewById(R.id.viewBtn_student);
-            ImageButton bookmark = convertView.findViewById(R.id.BookmarkRemove);
-
+            ImageButton bookmark = convertView.findViewById(R.id.Bookmark_icon);
 
             ViewBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,21 +154,13 @@ public class BookmarkFragment extends Fragment {
             bookmark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    boolean checkbookmarkdelete = bookmarkDB.deleteBookmark(bookID.get(position), rollNo);
-                    if(checkbookmarkdelete == true){
-                        title.remove(position);
-                        author.remove(position);
-                        bookID.remove(position);
-                        genre.remove(position);
-                        quantity.remove(position);
-                        soldout.remove(position);
-                        mAdapter.notifyDataSetChanged();
-                        Toast.makeText(getContext(), "Bookmark Deleted!", Toast.LENGTH_SHORT).show();
+                    boolean checkbookmarkinsert = bookmarkDB.insertBookmark(bookID.get(position),title.get(position), author.get(position),genre.get(position),quantity.get(position),soldout.get(position),rollNo);
+                    if(checkbookmarkinsert==true)
+                    {
+                        Toast.makeText(getContext(), "Bookmarked!", Toast.LENGTH_SHORT).show();
                     }
                     else
-                    {
-                        Toast.makeText(getContext(), "Bookmark NOT Deleted!", Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(getContext(), "Bookmark Already Exists!", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -178,18 +168,20 @@ public class BookmarkFragment extends Fragment {
             IssueBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(), "Buy Button Clicked for " + title.get(position), Toast.LENGTH_SHORT).show();
+                    //check book issue limit for the student that the admin set in preferences
+                    //generate due date according to the admin setting set in preferences
+                    //insert into IssueBookDB
                 }
             });
-
 
             TitleView.setText(title.get(position));
             AuthorView.setText(author.get(position));
 
+
+
             return convertView;
         }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

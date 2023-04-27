@@ -36,12 +36,13 @@ public class SettingsFragment extends Fragment {
         signout = (Button)binding.adminSignout;
         binding.adminSignout.setOnClickListener(view -> {
 
-            //SESSION LOGIC
-//            SharedPreferences sp = getActivity().getSharedPreferences("user_info", Activity.MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sp.edit();
-//            editor.remove("User");
-//            editor.remove("Password");
-//            editor.apply();
+
+            SharedPreferences sp = getActivity().getSharedPreferences("user_info", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.remove("User");
+            editor.remove("Password");
+            editor.remove("Book Limit");
+            editor.apply();
 
             Intent i = new Intent(getActivity(), Login.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

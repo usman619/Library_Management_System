@@ -12,22 +12,18 @@ import com.example.librarymanagementsystem.databinding.FragmentMybooksBinding;
 
 public class MyBooksFragment extends Fragment {
 
-private FragmentMybooksBinding binding;
+    private FragmentMybooksBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
-        MyBooksViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(MyBooksViewModel.class);
+                             ViewGroup container, Bundle savedInstanceState) {
 
-    binding = FragmentMybooksBinding.inflate(inflater, container, false);
-    View root = binding.getRoot();
+        binding = FragmentMybooksBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
-        final TextView textView = binding.textMyBooks;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
-@Override
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;

@@ -60,6 +60,7 @@ public class Login extends AppCompatActivity {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("User", rollNo_txt);
                     editor.putString("Password", password_hash);
+                    editor.putString("Book Limit", "3");
                     editor.commit();
 
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -79,16 +80,24 @@ public class Login extends AppCompatActivity {
                             int index;
                             index = res.getColumnIndexOrThrow("password");
                             String DB_password = res.getString(index);
+
+
+                            Log.d("PASS ENTERED:", password_hash);
+                            Log.d("PASS FROM DB:", DB_password);
+
+
                             if(password_hash.equals(DB_password))
                             {
                                 Toast.makeText(Login.this, "Successfully Login!", Toast.LENGTH_SHORT).show();
                                 // Go to student dashboard
                                 Intent i = new Intent(getApplicationContext(), Student_Dashboard.class);
+
                                 SharedPreferences sp = getSharedPreferences("user_info", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putString("User", rollNo_txt);
                                 editor.putString("Password", password_hash);
                                 editor.commit();
+
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
                             }

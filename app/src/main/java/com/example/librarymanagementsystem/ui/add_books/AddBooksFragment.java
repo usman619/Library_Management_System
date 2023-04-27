@@ -42,6 +42,27 @@ public class AddBooksFragment extends Fragment {
         genre = root.findViewById(R.id.genre);
         quantity = root.findViewById(R.id.quantity);
 
+
+        Button updateBtn = root.findViewById(R.id.updateBookBtn);
+
+
+        updateBtn.setOnClickListener(view1 -> {
+            String bookID_txt = bookID.getText().toString();
+            String title_txt = title.getText().toString();
+            String author_txt = author.getText().toString();
+            String genre_txt = genre.getText().toString();
+            int quantity_int = Integer.parseInt(quantity.getText().toString());
+
+            boolean checkBookUpdate = DB.updateBook(bookID_txt, title_txt, author_txt, genre_txt, quantity_int, "false");
+            if(checkBookUpdate==true)
+            {
+                Toast.makeText(getContext(), "Book Updated Successfully!", Toast.LENGTH_SHORT).show();
+            }
+            else
+                Toast.makeText(getContext(), "Books NOT Updated!", Toast.LENGTH_SHORT).show();
+
+        });
+
         Button addBtn = root.findViewById(R.id.addBookBtn);
 
         addBtn.setOnClickListener(view1 -> {
@@ -52,17 +73,19 @@ public class AddBooksFragment extends Fragment {
             String genre_txt = genre.getText().toString();
             int quantity_int = Integer.parseInt(quantity.getText().toString());
 
-            boolean checkBookInsert = DB.insertBook(bookID_txt, title_txt, author_txt, genre_txt, quantity_int, false);
+            boolean checkBookInsert = DB.insertBook(bookID_txt, title_txt, author_txt, genre_txt, quantity_int, "false");
             if(checkBookInsert==true)
             {
-                Toast.makeText(getContext(), "New Entry Inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "New Book Added Successfully", Toast.LENGTH_SHORT).show();
             }
             else
-                Toast.makeText(getContext(), "New Entry Not Inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "New Books NOT Added", Toast.LENGTH_SHORT).show();
 
         });
         return root;
     }
+
+
 
     @Override
     public void onDestroyView() {

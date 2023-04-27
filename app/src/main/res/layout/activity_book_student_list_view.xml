@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BookBookmarkListView">
+    tools:context=".BookStudentListView">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -35,12 +35,12 @@
                     android:textSize="28sp" />
 
                 <ImageButton
-                    android:id="@+id/BookmarkRemove"
+                    android:id="@+id/Bookmark_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_baseline_bookmark_remove_24"
-                    android:contentDescription="Bookmark Remove Button"/>
+                    android:src="@drawable/baseline_bookmark_24"
+                    android:contentDescription="Bookmark Button"/>
             </LinearLayout>
 
             <TextView

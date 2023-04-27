@@ -6,19 +6,19 @@
     android:layout_height="match_parent"
     android:gravity="center|top"
     android:orientation="vertical"
-    tools:context=".ui.add_books.AddBooksFragment">
+    tools:context=".IssueBookAdmin">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:fontFamily="@font/indigo_daisy"
-        android:text="Add Book"
+        android:text="Issue Book"
         android:textAlignment="center"
         android:textSize="50dp" />
 
     <EditText
-        android:id="@+id/bookId"
+        android:id="@+id/issue_bookId"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -31,8 +31,9 @@
         android:padding="15dp"
         android:textSize="15sp" />
 
+
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/issue_rollno"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -40,13 +41,13 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/et_custom"
         android:fontFamily="@font/roboto_regular"
-        android:hint="Book Title"
+        android:hint="Student Roll-No"
         android:inputType="text"
         android:padding="15dp"
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/author"
+        android:id="@+id/issue_date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -54,42 +55,13 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/et_custom"
         android:fontFamily="@font/roboto_regular"
-        android:hint="Book Author"
-        android:inputType="text"
-        android:padding="15dp"
-        android:textSize="15sp" />
-
-    <EditText
-        android:id="@+id/genre"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/et_custom"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="Book Genre"
-        android:inputType="text"
-        android:padding="15dp"
-        android:textSize="15sp" />
-
-
-    <EditText
-        android:id="@+id/quantity"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/et_custom"
-        android:fontFamily="@font/roboto_regular"
-        android:hint="Book Quantity"
-        android:inputType="number"
+        android:hint="Set Due Date"
+        android:inputType="date"
         android:padding="15dp"
         android:textSize="15sp" />
 
     <Button
-        android:id="@+id/addBookBtn"
+        android:id="@+id/issueBookBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -100,22 +72,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_custom"
         android:fontFamily="@font/roboto_regular"
-        android:text="Add Book"
-        android:textColor="@android:color/white" />
-
-    <Button
-        android:id="@+id/updateBookBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/btn2_custom"
-        android:fontFamily="@font/roboto_regular"
-        android:text="Update Book"
+        android:text="Issue Book"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

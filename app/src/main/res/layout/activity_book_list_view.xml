@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BookBookmarkListView">
+    tools:context=".BookListView">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -27,21 +27,14 @@
 
                 <TextView
                     android:id="@+id/Book_Title_List_View"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Book Title"
                     android:textColor="@color/purple_700"
                     android:textSize="28sp" />
-
-                <ImageButton
-                    android:id="@+id/BookmarkRemove"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_baseline_bookmark_remove_24"
-                    android:contentDescription="Bookmark Remove Button"/>
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/Book_Author_List_View"
@@ -54,28 +47,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
                 android:gravity="end"
-                >
+                android:orientation="horizontal">
+
                 <Button
-                    android:id="@+id/viewBtn_student"
+                    android:id="@+id/deleteBtn_admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:backgroundTint="#E91E63"
                     android:layout_marginRight="5dp"
-                    android:backgroundTint="#9C27B0"
-                    android:text="More Info" />
+                    android:text="Delete"/>
 
                 <Button
-                    android:id="@+id/issueBtn"
+                    android:id="@+id/issueBtn_admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:backgroundTint="#4CAF50"
-                    android:text="Issue Book" />
-            </LinearLayout>
+                    android:layout_marginRight="5dp"
+                    android:text="Issue"/>
 
+                <Button
+                    android:id="@+id/viewBtn_admin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#9C27B0"
+                    android:text="View"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
