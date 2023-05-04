@@ -144,7 +144,7 @@ public class IssueBookAdmin extends AppCompatActivity {
 //                    java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
 
                     IssueBookDB issue_db = new IssueBookDB(getApplicationContext());
-                    //issue_db.onCreate(issue_db.getWritableDatabase());
+//                    issue_db.onCreate(issue_db.getWritableDatabase());
 
                     boolean check = false;
                     try {

@@ -99,6 +99,7 @@ public class Login extends AppCompatActivity {
                                 editor.commit();
 
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.putExtra("rollNo", rollNo_txt);
                                 startActivity(i);
                             }
                             else

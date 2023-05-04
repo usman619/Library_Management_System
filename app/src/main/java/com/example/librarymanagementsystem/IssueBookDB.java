@@ -5,12 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.sql.Date;
 
 public class IssueBookDB extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "LMS.db";
+    public static final String TAG = "tag";
     public static final int DB_VERSION = 1;
     public static final String TABLE_NAME = "IssueBook";
     SQLiteDatabase db;
@@ -32,7 +34,29 @@ public class IssueBookDB extends SQLiteOpenHelper {
         onCreate(DB);
     }
 
+    public boolean tableExists(String tableName) {
+        Cursor cursor = db.rawQuery("SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '"+tableName+"'", null);
+        if(cursor!=null) {
+            if(cursor.getCount()>0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
+
     public boolean insertIssueBook(String bookId, String rollNo, String dueDate){
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
+            return false;
+        }
+
+        Log.d("BookID", bookId);
+        Log.d("rollNO", rollNo);
+        Log.d("dueDate", dueDate);
+
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
