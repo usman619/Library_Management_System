@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -127,19 +128,44 @@ public class BooksDB extends SQLiteOpenHelper {
         return cursor;
     }
 
+    @SuppressLint("Range")
     public void decrementBookQuantity(String bookId) {
         SQLiteDatabase db = this.getWritableDatabase();
         if (!tableExists(TABLE_NAME)) {
             onCreate(db);
             return;
         }
+        Cursor cursor = db.rawQuery("SELECT quantity FROM " + TABLE_NAME + " WHERE bookID = ?", new String[]{bookId});
+        int quantity = 0;
+        if (cursor.moveToFirst()) {
+            quantity = cursor.getInt(cursor.getColumnIndex("quantity"));
+        }
+        cursor.close();
         ContentValues values = new ContentValues();
-        values.put("quantity", "quantity - 1");
+        values.put("quantity", quantity - 1);
+        db.update(TABLE_NAME, values, "bookID = ?", new String[]{bookId});
+    }
+
+    @SuppressLint("Range")
+    public void incrementBookQuantity(String bookId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        if (!tableExists(TABLE_NAME)) {
+            onCreate(db);
+            return;
+        }
+        Cursor cursor = db.rawQuery("SELECT quantity FROM " + TABLE_NAME + " WHERE bookID = ?", new String[]{bookId});
+        int quantity = 0;
+        if (cursor.moveToFirst()) {
+            quantity = cursor.getInt(cursor.getColumnIndex("quantity"));
+        }
+        cursor.close();
+        ContentValues values = new ContentValues();
+        values.put("quantity", quantity + 1);
         db.update(TABLE_NAME, values, "bookID = ?", new String[]{bookId});
     }
 
 
-//    public void decremetBookQuantity(String bookId){
+//    public void decrementBookQuantity(String bookId){
 //        if(!tableExists(TABLE_NAME)){
 //            onCreate(db);
 //            return;

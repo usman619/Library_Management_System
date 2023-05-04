@@ -74,5 +74,19 @@
         android:fontFamily="@font/roboto_regular"
         android:text="Issue Book"
         android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/issueGoBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_custom"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Go Back"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

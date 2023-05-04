@@ -19,7 +19,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.librarymanagementsystem.IssueBookDB;
 import com.example.librarymanagementsystem.R;
+import com.example.librarymanagementsystem.ReturnBookListView;
 import com.example.librarymanagementsystem.StudentDB;
 import com.example.librarymanagementsystem.databinding.FragmentViewStudentsBinding;
 
@@ -114,6 +116,7 @@ public class ViewStudentsFragment extends Fragment {
             TextView DeptView = convertView.findViewById(R.id.Dept_ListView);
             Button detailsStudentBtn = convertView.findViewById(R.id.viewBtn_admin);
             Button deleteStudentBtn = convertView.findViewById(R.id.deleteBtn_viewStudent);
+            Button returnBookStudentBtn = convertView.findViewById(R.id.returnBookBtn_viewStudent);
 
             detailsStudentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -131,6 +134,23 @@ public class ViewStudentsFragment extends Fragment {
                     builder.setTitle("Student Details");
                     builder.setMessage(sb.toString());
                     builder.show();
+                }
+            });
+
+            returnBookStudentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+
+                    String rollNo = RollNo.get(position);
+
+                    Log.d("ROLL NO (view student):", rollNo);
+
+                    Intent i = new Intent(getContext(), ReturnBookListView.class);
+                    i.putExtra("RollNo", rollNo);
+                    startActivity(i);
+
                 }
             });
 

@@ -74,6 +74,14 @@
                     android:text="Delete"/>
 
                 <Button
+                    android:id="@+id/returnBookBtn_viewStudent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="#4CAF50"
+                    android:text="Return"/>
+
+                <Button
                     android:id="@+id/viewBtn_admin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

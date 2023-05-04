@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -102,10 +103,38 @@ public class StudentDB extends SQLiteOpenHelper {
         return cursor;
     }
 
+//    public void incrementIssuedBooks(String rollNo) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("bookIssued", "bookIssued + 1");
+//        db.update(TABLE_NAME, values, "rollNo = ?", new String[]{rollNo});
+//    }
+
+    @SuppressLint("Range")
     public void incrementIssuedBooks(String rollNo) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT bookIssued FROM " + TABLE_NAME + " WHERE rollNo = ?", new String[]{rollNo});
+        int bookIssued = 0;
+        if (cursor.moveToFirst()) {
+            bookIssued = cursor.getInt(cursor.getColumnIndex("bookIssued"));
+        }
+        cursor.close();
         ContentValues values = new ContentValues();
-        values.put("bookIssued", "bookIssued + 1");
+        values.put("bookIssued", bookIssued + 1);
+        db.update(TABLE_NAME, values, "rollNo = ?", new String[]{rollNo});
+    }
+
+    @SuppressLint("Range")
+    public void decrementIssuedBooks(String rollNo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT bookIssued FROM " + TABLE_NAME + " WHERE rollNo = ?", new String[]{rollNo});
+        int bookIssued = 0;
+        if (cursor.moveToFirst()) {
+            bookIssued = cursor.getInt(cursor.getColumnIndex("bookIssued"));
+        }
+        cursor.close();
+        ContentValues values = new ContentValues();
+        values.put("bookIssued", bookIssued - 1);
         db.update(TABLE_NAME, values, "rollNo = ?", new String[]{rollNo});
     }
 

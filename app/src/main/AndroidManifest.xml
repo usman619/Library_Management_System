@@ -50,6 +50,10 @@
         <activity
             android:name=".Admin_Dashboard"
             android:exported="true" />
+        <activity
+            android:name=".ReturnBookListView"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

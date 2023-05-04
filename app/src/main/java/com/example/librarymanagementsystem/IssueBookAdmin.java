@@ -16,6 +16,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.librarymanagementsystem.ui.home.HomeFragment;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,10 +26,14 @@ import java.util.Date;
 public class IssueBookAdmin extends AppCompatActivity {
 
     EditText et_bookID, et_student_rollno, et_due_date;
-    Button issueBtn;
+    Button issueBtn, gobackBtn;
     int student_book_issued = 0;
     int book_limit = 0;
     StudentDB db;
+
+    String bookID_txt;
+    String student_rollno_txt;
+    String due_date ;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,12 +57,12 @@ public class IssueBookAdmin extends AppCompatActivity {
         Log.d("CHECK BOOK LIMIT: ",String.valueOf(book_limit));
 
 
-        et_bookID = (EditText) findViewById(R.id.issue_bookId);
+        et_bookID = findViewById(R.id.issue_bookId);
         //Auto Filling the Book ID
         et_bookID.setText(bookID);
 
-        et_student_rollno = (EditText) findViewById(R.id.issue_rollno);
-        et_due_date = (EditText) findViewById(R.id.issue_date);
+        et_student_rollno = findViewById(R.id.issue_rollno);
+        et_due_date = findViewById(R.id.issue_date);
 
 
         et_due_date.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +98,26 @@ public class IssueBookAdmin extends AppCompatActivity {
         issueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String bookID = et_bookID.getText().toString();
-                String student_rollno_txt = et_student_rollno.getText().toString();
-                Date due_date = (Date) et_due_date.getText();
+
+//                Toast.makeText(IssueBookAdmin.this, "ISSUE BUTTON WORKING", Toast.LENGTH_SHORT).show();
 
 
+                bookID_txt = et_bookID.getText().toString();
+                student_rollno_txt = et_student_rollno.getText().toString();
+                due_date = et_due_date.getText().toString();
+
+//                if (bookID.isEmpty()){
+//                    Toast.makeText(IssueBookAdmin.this, "ISSUE BUTTON WORKING", Toast.LENGTH_SHORT).show();
+//                }
+
+                Log.d("BOOK ID",bookID_txt);
+                Log.d("ROLL NO",student_rollno_txt);
+                Log.d("DATE",due_date);
+
+//
+//                Log.d("",);
+//
+//
                 db = new StudentDB(getApplicationContext());
                 Cursor cursor = db.getStudentIssueBook(student_rollno_txt);
 
@@ -108,17 +130,38 @@ public class IssueBookAdmin extends AppCompatActivity {
                 if (cursor != null) {
                     cursor.close();
                 }
-
-
+//
+//
                 if (book_limit >= student_book_issued){
-                    java.sql.Date date = new java.sql.Date(due_date.getTime());
-                    IssueBookDB isssue_db = new IssueBookDB(getApplicationContext());
-                    boolean check = isssue_db.insertIssueBook(bookID, student_rollno_txt, date);
+
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                    Date parsedDate = null;
+//                    try {
+//                        parsedDate = dateFormat.parse(due_date);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//                    java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
+
+                    IssueBookDB issue_db = new IssueBookDB(getApplicationContext());
+                    //issue_db.onCreate(issue_db.getWritableDatabase());
+
+                    boolean check = false;
+                    try {
+                        check = issue_db.insertIssueBook(bookID, student_rollno_txt, due_date);
+                    } catch (Exception e) {
+                        Log.e("INSERT ISSUE BOOK", "Error inserting issue book", e);
+                    }
+
+                    Log.d("CHECK ISSUE BOOK: ", String.valueOf(check));
+
+
+                    //boolean check = isssue_db.insertIssueBook(bookID, student_rollno_txt, due_date);
 
                     Log.d("CHECK ISSUE BOOK: ",String.valueOf(check));
 
                     if (check == true){
-                        // Increment Student Issue Book and Decrement Book quantity
+                        //Increment Student Issue Book and Decrement Book quantity
                         BooksDB booksDB = new BooksDB(getApplicationContext());
                         StudentDB studentDB = new StudentDB(getApplicationContext());
 
@@ -139,12 +182,26 @@ public class IssueBookAdmin extends AppCompatActivity {
             }
         });
 
+        gobackBtn = (Button)findViewById(R.id.issueGoBack);
+
+        gobackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(IssueBookAdmin.this, HomeFragment.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent1);
+            }
+        });
 
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//    }
 }
