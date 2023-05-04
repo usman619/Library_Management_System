@@ -109,6 +109,8 @@ public class ReturnBookListView extends AppCompatActivity {
             viewFineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+
 //                    String dueDate = due_date.get(position);
 //
 //                    //Get the current date

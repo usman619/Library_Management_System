@@ -29,7 +29,6 @@ public class ProfileFragment extends Fragment {
     private Button signout;
     SharedPreferences sp;
     String username = "";
-    //    String email = "";
     String phone = "";
     String dept = "";
 
@@ -68,13 +67,13 @@ public class ProfileFragment extends Fragment {
 
         final TextView tv_username = binding.userName;
         final TextView tv_rollNO = binding.userRollno;
-//        final TextView tv_email = binding.userEmail;
+        final TextView tv_email = binding.userEmail;
         final TextView tv_phone = binding.userPhone;
         final TextView tv_dept = binding.userDept;
 
         tv_username.setText(username);
         tv_rollNO.setText(rollNO);
-//        tv_email.setText(email);
+        tv_email.setText(rollNO+"@nu.edu.pk");
         tv_phone.setText(phone);
         tv_dept.setText(dept);
 
