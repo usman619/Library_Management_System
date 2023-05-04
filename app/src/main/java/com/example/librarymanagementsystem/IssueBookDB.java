@@ -106,7 +106,13 @@ public class IssueBookDB extends SQLiteOpenHelper {
 
     public Cursor getAllIssuedBook(String rollNo){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT bookID FROM " + TABLE_NAME + " where rollNo = ?", new String[]{rollNo});
+        Cursor cursor = db.rawQuery("SELECT bookID,dueDate FROM " + TABLE_NAME + " where rollNo = ?", new String[]{rollNo});
+        return cursor;
+    }
+
+    public Cursor getMyIssuedBook(String rollNo){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT bookID,dueDate FROM " + TABLE_NAME + " where rollNo = ?", new String[]{rollNo});
         return cursor;
     }
 

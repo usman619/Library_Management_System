@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,13 +25,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.librarymanagementsystem.ui.view_students.ViewStudentsFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 public class ReturnBookListView extends AppCompatActivity {
 
     IssueBookDB issueBookDB;
     ArrayList<String> bookID;
     //ArrayList<String> rollno;
-    //ArrayList<String> date;
+    ArrayList<String> due_date;
 
     String rollNo;
     private CustomBaseAdapter_ customBaseAdapter;
@@ -54,7 +59,7 @@ public class ReturnBookListView extends AppCompatActivity {
 
         bookID = new ArrayList<String>();
 //        rollno = new ArrayList<String>();
-//        date = new ArrayList<String>();
+        due_date = new ArrayList<String>();
 
         issueBookDB = new IssueBookDB(getApplicationContext());
 
@@ -64,12 +69,14 @@ public class ReturnBookListView extends AppCompatActivity {
         } else {
             while (cursor.moveToNext()) {
                 bookID.add(cursor.getString(0));
+                due_date.add(cursor.getString(1));
             }
         }
 
         customBaseAdapter = new CustomBaseAdapter_();
         ListView listView = findViewById(R.id.return_list_view);
         listView.setAdapter(customBaseAdapter);
+        //customBaseAdapter.notifyDataSetChanged();
     }
 
     class CustomBaseAdapter_ extends BaseAdapter {
@@ -97,6 +104,48 @@ public class ReturnBookListView extends AppCompatActivity {
             }
             TextView bookIDView = convertView.findViewById(R.id.Return_BookID_List_View);
             Button removeBtn = convertView.findViewById(R.id.deleteBtn_returnBook);
+            Button viewFineBtn = convertView.findViewById(R.id.checkFine_returnBook);
+
+            viewFineBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    String dueDate = due_date.get(position);
+//
+//                    //Get the current date
+//                    Date currentDate = new Date();
+//
+//                    // Convert the due_date string to a Date object
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                    Date formattedDueDate = null;
+//                    try {
+//                        formattedDueDate = dateFormat.parse(dueDate);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    // Calculate the difference between the current date and the due date in milliseconds
+//                    long differenceMillis = currentDate.getTime() - formattedDueDate.getTime();
+//
+//
+//                    // Convert the difference to days
+//                    int daysLate = (int) (differenceMillis / (1000 * 60 * 60 * 24));
+//
+//                    // Calculate the fee per day (e.g. $1 per day)
+//                    double feePerDay = 100.0;
+//                    double totalFee = daysLate * feePerDay;
+//                    Log.d("TOTAL FEE:", String.valueOf(totalFee));
+//
+//                    StringBuffer sb = new StringBuffer();
+//                    sb.append("Fine: "+totalFee+"\n");
+//
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                    builder.setCancelable(true);
+//                    builder.setTitle("Total Fine:");
+//                    builder.setMessage(sb.toString());
+//                    builder.show();
+
+                }
+            });
 
             removeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,6 +153,7 @@ public class ReturnBookListView extends AppCompatActivity {
                     //rollNo.get(position)
 
                     String bookToRemove = bookID.get(position);
+//                    String dueDate = due_date.get(position);
 
                     boolean checkbookdelete = issueBookDB.deleteIssueBook(rollNo, bookToRemove);
                     Log.d("Remove the issue book", String.valueOf(checkbookdelete));
@@ -116,6 +166,8 @@ public class ReturnBookListView extends AppCompatActivity {
 
                         booksDB.incrementBookQuantity(bookToRemove);
                         studentDB.decrementIssuedBooks(rollNo);
+
+
 
                         Toast.makeText(getApplicationContext(), "Book Returned!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -130,12 +182,13 @@ public class ReturnBookListView extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        Intent intent = new Intent(this, ViewStudentsFragment.class);
-//        startActivity(intent);
-//        finish();
-//    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ViewStudentsFragment.class);
+        startActivity(intent);
+        finish();
+    }
 }
 
 
