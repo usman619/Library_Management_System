@@ -94,13 +94,22 @@ public class IssueBookDB extends SQLiteOpenHelper {
 //    }
 
     public boolean deleteIssueBook(String rollno, String ID) {
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE ID = ? and rollNo= ?", new String[]{ID, rollno});
-        if (cursor.getCount() > 0) {
-            long result = db.delete(TABLE_NAME, "ID=? and rollNo=?", new String[]{ID, rollno});
-            return result != -1;
-        } else {
+        if(!tableExists(TABLE_NAME)) {
+            onCreate(db);
             return false;
         }
+//        Log.d("rollNO in IssueDB: ", rollno);
+//        Log.d("ID in IssueDB: ", ID);
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE ID = ? and rollNo= ?", new String[]{ID, rollno});
+//        if (cursor.getCount() > 0) {
+            long result = db.delete(TABLE_NAME, "ID=? and rollNo=?", new String[]{ID, rollno});
+//            return result != -1;
+        return true;
+//        }
+//        else {
+//            return false;
+//        }
     }
 
 

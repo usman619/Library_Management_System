@@ -187,8 +187,8 @@ public class IssueBookAdmin extends AppCompatActivity {
         gobackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(IssueBookAdmin.this, HomeFragment.class);
-                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent1 = new Intent(IssueBookAdmin.this, Admin_Dashboard.class);
+                //intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent1);
             }
         });

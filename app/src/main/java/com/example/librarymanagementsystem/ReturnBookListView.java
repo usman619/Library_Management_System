@@ -36,6 +36,7 @@ public class ReturnBookListView extends AppCompatActivity {
     ArrayList<String> bookID;
     //ArrayList<String> rollno;
     ArrayList<String> due_date;
+    Button returnBackBtn;
 
     String rollNo;
     private CustomBaseAdapter_ customBaseAdapter;
@@ -77,6 +78,17 @@ public class ReturnBookListView extends AppCompatActivity {
         ListView listView = findViewById(R.id.return_list_view);
         listView.setAdapter(customBaseAdapter);
         //customBaseAdapter.notifyDataSetChanged();
+
+        returnBackBtn = findViewById(R.id.returnBackBtn);
+
+        returnBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Admin_Dashboard.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     class CustomBaseAdapter_ extends BaseAdapter {
@@ -106,39 +118,52 @@ public class ReturnBookListView extends AppCompatActivity {
             Button removeBtn = convertView.findViewById(R.id.deleteBtn_returnBook);
             Button viewFineBtn = convertView.findViewById(R.id.checkFine_returnBook);
 
+
             viewFineBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
-//                    String dueDate = due_date.get(position);
-//
-//                    //Get the current date
-//                    Date currentDate = new Date();
-//
-//                    // Convert the due_date string to a Date object
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//                    Date formattedDueDate = null;
-//                    try {
-//                        formattedDueDate = dateFormat.parse(dueDate);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    // Calculate the difference between the current date and the due date in milliseconds
-//                    long differenceMillis = currentDate.getTime() - formattedDueDate.getTime();
-//
-//
-//                    // Convert the difference to days
-//                    int daysLate = (int) (differenceMillis / (1000 * 60 * 60 * 24));
-//
-//                    // Calculate the fee per day (e.g. $1 per day)
-//                    double feePerDay = 100.0;
-//                    double totalFee = daysLate * feePerDay;
-//                    Log.d("TOTAL FEE:", String.valueOf(totalFee));
-//
+                    String dueDate = due_date.get(position);
+
+                    //Get the current date
+                    Date currentDate = new Date();
+
+                    // Convert the due_date string to a Date object
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    Date formattedDueDate = null;
+                    try {
+                        formattedDueDate = dateFormat.parse(dueDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Calculate the difference between the current date and the due date in milliseconds
+                    long differenceMillis = currentDate.getTime() - formattedDueDate.getTime();
+
+
+                    // Convert the difference to days
+                    int daysLate = (int) (differenceMillis / (1000 * 60 * 60 * 24));
+
+                    double totalFee;
+
+                    if (daysLate < 0) {
+                        totalFee = 0;
+                    }
+                    else{
+                        // Calculate the fee per day (e.g. 150 PKR per day)
+                        double feePerDay = 150.0;
+                        totalFee = daysLate * feePerDay;
+                    }
+                    Log.d("TOTAL FEE:", String.valueOf(totalFee));
+
+
+                    Toast.makeText(ReturnBookListView.this, "Fine: "+totalFee, Toast.LENGTH_SHORT).show();
+
 //                    StringBuffer sb = new StringBuffer();
 //                    sb.append("Fine: "+totalFee+"\n");
+
+
 //
 //                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 //                    builder.setCancelable(true);
@@ -187,7 +212,7 @@ public class ReturnBookListView extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ViewStudentsFragment.class);
+        Intent intent = new Intent(this, Admin_Dashboard.class);
         startActivity(intent);
         finish();
     }
