@@ -121,31 +121,19 @@ public class IssueBookAdmin extends AppCompatActivity {
                 db = new StudentDB(getApplicationContext());
                 Cursor cursor = db.getStudentIssueBook(student_rollno_txt);
 
-                if (cursor != null && cursor.moveToFirst()){
-                    student_book_issued = cursor.getColumnIndexOrThrow("bookIssued");
+                if (cursor != null && cursor.moveToFirst()) {
+                    student_book_issued = cursor.getInt(cursor.getColumnIndexOrThrow("bookIssued"));
                 }
 
-                Log.d("CHECK STUDENT: ",String.valueOf(student_book_issued));
+                Log.d("CHECK STUDENT: ", String.valueOf(student_book_issued));
 
                 if (cursor != null) {
                     cursor.close();
                 }
-//
-//
-                if (book_limit >= student_book_issued){
 
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//                    Date parsedDate = null;
-//                    try {
-//                        parsedDate = dateFormat.parse(due_date);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                    java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
-
+                if (book_limit > student_book_issued) {
+                    // The book can be issued
                     IssueBookDB issue_db = new IssueBookDB(getApplicationContext());
-//                    issue_db.onCreate(issue_db.getWritableDatabase());
-
                     boolean check = false;
                     try {
                         check = issue_db.insertIssueBook(bookID, student_rollno_txt, due_date);
@@ -155,27 +143,20 @@ public class IssueBookAdmin extends AppCompatActivity {
 
                     Log.d("CHECK ISSUE BOOK: ", String.valueOf(check));
 
-
-                    //boolean check = isssue_db.insertIssueBook(bookID, student_rollno_txt, due_date);
-
-                    Log.d("CHECK ISSUE BOOK: ",String.valueOf(check));
-
-                    if (check == true){
-                        //Increment Student Issue Book and Decrement Book quantity
+                    if (check) {
+                        // Increment Student Issue Book and Decrement Book quantity
                         BooksDB booksDB = new BooksDB(getApplicationContext());
                         StudentDB studentDB = new StudentDB(getApplicationContext());
 
                         booksDB.decrementBookQuantity(bookID);
                         studentDB.incrementIssuedBooks(student_rollno_txt);
 
-
                         Toast.makeText(IssueBookAdmin.this, "Book Issued Successfully!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(IssueBookAdmin.this, "Book can Not be Issued", Toast.LENGTH_SHORT).show();
-
+                    } else {
+                        Toast.makeText(IssueBookAdmin.this, "Book cannot be Issued", Toast.LENGTH_SHORT).show();
                     }
                 }
+
 
 
 

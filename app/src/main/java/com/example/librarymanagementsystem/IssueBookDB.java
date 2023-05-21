@@ -57,7 +57,7 @@ public class IssueBookDB extends SQLiteOpenHelper {
         Log.d("dueDate", dueDate);
 
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        //SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("bookID", bookId);
@@ -98,19 +98,22 @@ public class IssueBookDB extends SQLiteOpenHelper {
             onCreate(db);
             return false;
         }
-//        Log.d("rollNO in IssueDB: ", rollno);
-//        Log.d("ID in IssueDB: ", ID);
+        Log.d("rollNO in IssueDB: ", rollno);
+        Log.d("ID in IssueDB: ", ID);
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE ID = ? and rollNo= ?", new String[]{ID, rollno});
-//        if (cursor.getCount() > 0) {
-            long result = db.delete(TABLE_NAME, "ID=? and rollNo=?", new String[]{ID, rollno});
-//            return result != -1;
-        return true;
-//        }
-//        else {
-//            return false;
-//        }
+        if (cursor.getCount() > 0) {
+            long result = db.delete(TABLE_NAME, "ID=? AND rollNo=?", new String[]{ID, rollno});
+            return result != -1;
+//        return true;
+        }
+        else {
+            return false;
+        }
     }
+
+
+
 
 
     public Cursor getAllIssuedBook(String rollNo){

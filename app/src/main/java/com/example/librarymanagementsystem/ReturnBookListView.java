@@ -77,7 +77,7 @@ public class ReturnBookListView extends AppCompatActivity {
         customBaseAdapter = new CustomBaseAdapter_();
         ListView listView = findViewById(R.id.return_list_view);
         listView.setAdapter(customBaseAdapter);
-        //customBaseAdapter.notifyDataSetChanged();
+        customBaseAdapter.notifyDataSetChanged();
 
         returnBackBtn = findViewById(R.id.returnBackBtn);
 
@@ -160,47 +160,35 @@ public class ReturnBookListView extends AppCompatActivity {
 
                     Toast.makeText(ReturnBookListView.this, "Fine: "+totalFee, Toast.LENGTH_SHORT).show();
 
-//                    StringBuffer sb = new StringBuffer();
-//                    sb.append("Fine: "+totalFee+"\n");
-
-
-//
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                    builder.setCancelable(true);
-//                    builder.setTitle("Total Fine:");
-//                    builder.setMessage(sb.toString());
-//                    builder.show();
-
                 }
             });
 
             removeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //rollNo.get(position)
-
                     String bookToRemove = bookID.get(position);
-//                    String dueDate = due_date.get(position);
-
                     boolean checkbookdelete = issueBookDB.deleteIssueBook(rollNo, bookToRemove);
-                    Log.d("Remove the issue book", String.valueOf(checkbookdelete));
 
-                    if (checkbookdelete == true) {
+                    Log.d("BookID (Return book listview)", bookToRemove);
+
+                    if (checkbookdelete) {
                         bookID.remove(position);
+                        due_date.remove(position);
                         notifyDataSetChanged();
+
+                        //Increment Book Quantity (Student) and decrement Issued Books (Book)
                         StudentDB studentDB = new StudentDB(getApplicationContext());
                         BooksDB booksDB = new BooksDB(getApplicationContext());
 
                         booksDB.incrementBookQuantity(bookToRemove);
                         studentDB.decrementIssuedBooks(rollNo);
 
-
-
                         Toast.makeText(getApplicationContext(), "Book Returned!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "Book NOT Returned!", Toast.LENGTH_SHORT).show();
                     }
                 }
+
             });
 
             bookIDView.setText(bookID.get(position));
